@@ -1,0 +1,19 @@
+<c-row>
+    <c-card style="padding: 1%;">
+        <h5 cCardTitle>Credenciales</h5>
+        <c-card-body>
+            <div class="mb-3">
+                <label cLabel for="inputEmail-1">Usuario</label>
+                <input [(ngModel)]="username" cFormControl type="text" required>
+            </div>
+            <div class="mb-3">
+                <label cLabel for="inputname">Contraseña</label>
+                <input [(ngModel)]="password" cFormControl id="inputname" type="password" required>
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <button class="btn align-items-end ml-auto" (click)="SetLocalStorage()" cButton color="primary">Guardar</button>
+            </div>
+
+        </c-card-body>
+    </c-card>
+</c-row>

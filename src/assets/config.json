@@ -1,0 +1,46 @@
+{
+    "UrlToken": "https://sandbox.osigu.com/v1/oauth/token",
+    "UrlCharges": "https://sandbox.osigu.com/rcm/v1/charges",
+    "UrlInvoice": "https://sandbox.osigu.com/rcm/v1/invoices/assign-charges",
+    "UrlUpdate": "https://sandbox.osigu.com/rcm/v1/support-files/upload",
+    "UrlLocation": "https://sandbox.osigu.com/rcm/v1/invoices/assign-charges/status/",
+    "UrlBeneficiary": "https://sandbox.osigu.com/beneficiary-lookup/v1/sponsors/gt-palig/search",
+    "UrlDiagnosis": "https://sandbox.osigu.com/medical-catalogs/v1/diagnoses/search",
+    "UrlAuthorization": "https://sandbox.osigu.com/arc/v1/authorization-requests/",
+    "UrlGetReceta":"https://sandbox.osigu.com/dispensing/v1/documents/",
+    "UrlDispensing":"https://sandbox.osigu.com/dispensing/v1/dispensations/",
+    "healthcare_plan_coverage_code": "POS",
+    "agreement_code": "FAMICONT",
+    "UserToken": "client_credentials",
+    "sponsor_slug": "gt-palig",
+    "permissions": [
+        {
+            "client": "gt-fayco-1",
+            "provider_slug": "fayco",
+            "modules": [
+                "seguros"
+            ]
+        },
+        {
+            "client": "co-palermo",
+            "provider_slug": "",
+            "modules": [
+                "armado"
+            ]
+        },
+        {
+            "client": "gt-batres-callcenter",
+            "provider_slug": "batres",
+            "modules": [
+                "seguros"
+            ]
+        },
+        {
+            "client": "gt-blue-medical-1",
+            "provider_slug": "gt-blue-medical",
+            "modules": [
+                "seguros"
+            ]
+        }
+    ]
+}

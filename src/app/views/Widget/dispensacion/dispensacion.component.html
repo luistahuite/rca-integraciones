@@ -1,0 +1,131 @@
+
+<c-nav variant="pills">
+    <a [active]="true" [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="0" cNavLink>Selección de medicamentos</a>
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink *ngIf="buttonfact">Facturación</a>
+  </c-nav>
+  <c-tab-content #tabContent="cTabContent">
+    <c-tab-pane class="p-3">
+        <c-row>
+            <c-card-group class="mb-2">
+            <c-card style="padding: 1%;">
+                <h5 cCardTitle>Dispensación</h5>
+                <c-card-body>
+                    <div class="mb-3">
+                        <label cLabel for="inputEmail-1">Código de preautorización</label>
+                        <input [(ngModel)]="code" cFormControl type="text" required>
+                    </div>
+                    <div class="d-flex flex-row-reverse">
+                        <button class="btn align-items-end ml-auto" (click)="GetDrugs()" cButton color="primary">Buscar Preautorización</button>
+                    </div>
+        
+                </c-card-body>
+            </c-card>
+            <c-card style="padding: 1%;" *ngIf="buttonview">
+                <h5 cCardTitle>Datos básicos</h5>
+                <c-card-body>
+                    <c-row>
+                    <div class="col-md-6">
+                        <label cLabel for="inputEmail-1">Poliza</label>
+                        <input [ngModel]="this.dispenser.policy_number" cFormControl type="text" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label cLabel for="inputEmail-1">Certificado</label>
+                        <input [ngModel]="this.dispenser.certificate" cFormControl type="text" readonly>
+                    </div>
+                </c-row>
+                <c-row>
+                    <div class="col-md-6">
+                        <label cLabel for="inputEmail-1">Cotizante</label>
+                        <input [ngModel]="this.dispenser.policy_holder_name" cFormControl type="text" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label cLabel for="inputEmail-1">Beneficiario</label>
+                        <input [ngModel]="this.dispenser.patient_name" cFormControl type="text" readonly>
+                    </div>
+                </c-row>
+                </c-card-body>
+            </c-card>
+            </c-card-group>
+        </c-row>
+        <c-row *ngIf="buttonview">
+            <c-card-group>
+            <c-card style="padding: 1%;">
+                <h5 cCardTitle>Medicamentos</h5>
+                <c-card-body>
+                    <table cTable [responsive]="true">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Id</th>
+                                <th scope="col">Código</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio</th>
+        
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let items of dispenserlist">
+                                <td >
+                                    <input *ngIf="items.code!==null" type="checkbox" [(ngModel)]="items.selected">
+                                </td>
+                                <td>{{items.id}}</td>
+                                <td>{{items.code}}</td>
+                                <td>{{items.name}}</td>
+                                <td>{{items.quantity}}<input [(ngModel)]="items.quantity" cFormControl type="range" [min]="0" [max]="items.full" *ngIf="items.code!==null"></td>
+                                <td><input [(ngModel)]="items.price" cFormControl type="number" *ngIf="items.code!==null"></td>
+                            </tr>
+        
+                        </tbody>
+                    </table>
+                    <div class="d-flex flex-row-reverse">
+                        <button class="btn align-items-end ml-auto" (click)="Dispense()" cButton color="primary">Iniciar dispensación</button>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </c-card-group>
+        </c-row>
+        
+    </c-tab-pane>  
+    <c-tab-pane class="p-3">
+        <c-row>
+            <c-card-group class="mb-2">
+            <c-card style="padding: 1%;">
+                <h5 cCardTitle>Facturación</h5>
+                <c-card-body>
+                    <c-row>
+                        <div class="col-md-12">
+                            <label cLabel for="inputEmail-1">Número de factura</label>
+                            <input [(ngModel)]="this.numberfact" cFormControl type="text">
+                        </div>
+                    </c-row>
+                    <c-row>
+                        <div class="col-md-6">
+                            <label cLabel for="inputEmail-1">Valor a pagar por aseguradora</label>
+                            <input [ngModel]="this.authpend.amount_covered_by_sponsor" cFormControl type="text" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label cLabel for="inputEmail-1">Valor a pagar por paciente</label>
+                            <input [ngModel]="this.authpend.amount_paid_by_patient" cFormControl type="text" readonly>
+                        </div>
+                    </c-row>
+
+                </c-card-body>
+                <c-card-footer>
+                    <div class="d-flex flex-row-reverse">
+                        <button *ngIf="this.numberfact!=''" class="btn align-items-end ml-auto" (click)="Facture()" cButton color="primary">Finalizar dispensación</button>
+                    </div>
+                </c-card-footer>
+            </c-card>
+            </c-card-group>
+    </c-row>
+    </c-tab-pane>  
+</c-tab-content>
+
+
+
+
+
+
+
+

@@ -1,0 +1,138 @@
+<c-row>
+    <c-card style="padding: 1%;">
+        <h5 cCardTitle>Factura</h5>
+        <c-card-body>
+            <div class="mb-3">
+                <label cLabel for="inputEmail-1">Factura</label>
+                <input [(ngModel)]="Invoice" cFormControl type="text">
+            </div>
+            <div class="mb-3">
+                <label cLabel for="inputname">Nombre Atención</label>
+                <input
+                    [ngModel]="this.responsecharger.Charge && this.responsecharger.Charge[0] ?this.responsecharger.Charge[0].origin_event_description:null"
+                    cFormControl id="inputname" type="text" readonly>
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <button class="btn align-items-end ml-auto" (click)="FindAttention()" cButton
+                    color="primary">Buscar</button>
+            </div>
+        </c-card-body>
+    </c-card>
+</c-row>
+<c-row>
+    <c-card *ngIf="buttonview" style="padding: 1%;">
+        <h5 cCardTitle>Subir factura</h5>
+        <c-card-body>
+            <div>
+                <label>Factura</label>
+                <div class="input-group mb-3">
+                   
+                <input class="form-control ml-3" type="file" (change)="changefileinvoice($event)">
+                <img class="mr-3" *ngIf="this.responsecharger.Documents?this.responsecharger.Documents.Fact.Document:false" src="assets/images/checked.png"
+                alt="ima-check" style="width: 35px;">
+              
+                </div>
+            </div>
+            <div>
+                <label>Detalle de cargos</label>
+                <div class="input-group mb-3">
+                    
+                <input class="form-control" type="file" (change)="changefiledeta($event)">
+                <img class="mr-3" *ngIf="this.responsecharger.Documents?this.responsecharger.Documents.Deta.Document:false" src="assets/images/checked.png"
+                    alt="ima-check" style="width: 35px;">
+                
+                </div>
+            </div>
+            <div>
+                <label>Historia clínica</label>
+                <div class="input-group mb-3">
+                    
+                <input class="form-control" type="file" (change)="changefilehc($event)">
+                <img class="mr-3" *ngIf="this.responsecharger.Documents?this.responsecharger.Documents.Hc.Document:false" src="assets/images/checked.png"
+                    alt="ima-check" style="width: 35px;">
+               
+                </div>
+            </div>
+            <div>
+                <label>Epicrisis</label>
+                <div class="input-group mb-3"> 
+                <input class="form-control" type="file" (change)="changefileepic($event)">
+                <img class="mr-3" *ngIf="this.responsecharger.Documents?this.responsecharger.Documents.Epic.Document:false" src="assets/images/checked.png"
+                    alt="ima-check" style="width: 35px;">
+                
+                </div>
+            </div>
+            <c-card-footer>
+                <c-row class="mt-4">
+                    <c-col class="col-12">
+                        <div class="d-flex flex-row-reverse">
+                            <button class="btn align-items-end ml-auto" (click)="UploadHeader()" cButton color="primary"
+                                cTooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                                cTooltipPlacement="right">Subir Detalles de cuenta</button>
+                        </div>
+                    </c-col>
+                </c-row>
+            </c-card-footer>
+        </c-card-body>
+
+    </c-card>
+</c-row>
+
+<c-row>
+    <c-card *ngIf="buttonview">
+        <h5 cCardTitle>Documentos de soporte</h5>
+        <c-card-body>
+            <table cTable [responsive]="true">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Tipo de Servicio</th>
+                        <th scope="col">Código cargo</th>
+                        <th scope="col">Código Producto</th>
+                        <th scope="col">Nombre Producto</th>
+                        <th scope="col">Acuerdo</th>
+                        <th scope="col">Subir Documento</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let items of this.responsecharger.Charge|filterServices:'1'">
+                        <td>{{items.service_type}}</td>
+                        <td>{{items.code}}</td>
+                        <td>{{items.provider_product_code}}</td>
+                        <td>{{items.description}}</td>
+                        <td>{{items.agreement_code}}</td>
+                        <td>
+                            <ul>
+                                <li *ngFor="let files of items.DocumentType">
+                                    <label>{{files.NameSupport}}</label>
+                                    <div class="input-group mb-3">
+                                       
+                                    <input class="form-control" type="file"
+                                        (change)="changefilecharger($event,items.code,files.CodSupport)">
+                                        <img class="mr-3" *ngIf="files.Document" src="assets/images/checked.png" alt="ima-check"
+                                        style="width: 35px;">
+                                    
+                                    </div>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </c-card-body>
+        <c-card-footer>
+            <c-row class="mt-4">
+                <c-col class="col-12">
+                    <div class="d-flex flex-row-reverse">
+                        <button class="btn align-items-end ml-auto" (click)="UploadDocs()" cButton color="primary"
+                            cTooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." cTooltipPlacement="right">Subir
+                            Soportes</button>
+                    </div>
+                </c-col>
+            </c-row>
+        </c-card-footer>
+    </c-card>
+</c-row>

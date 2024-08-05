@@ -1,0 +1,193 @@
+
+    <c-nav variant="pills">
+        <a [active]="true" [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="0" cNavLink>Asegurado</a>
+        <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink *ngIf="HighlightRow!=99999">Diagnósticos</a>
+        <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="2" cNavLink *ngIf="dxList.length>0">Documentos de soporte</a>
+        <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="3" cNavLink *ngIf="validatewidget()">Selección de medicamentos</a>
+      </c-nav>
+      <c-tab-content #tabContent="cTabContent">
+        <c-tab-pane class="p-3">
+            <c-row>
+                <c-card-group>
+                <c-card style="padding: -5%;">
+                    <h5 cCardTitle>Busqueda asegurado</h5>
+                    <c-card-body>
+                        <c-row class="col-md-12">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label cLabel for="inputEmail-1">Póliza</label>
+                                    <input [(ngModel)]="poliza" cFormControl type="text" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label cLabel for="inputname">Certificado</label>
+                                    <input [(ngModel)]="certificado" cFormControl id="inputname" type="text">
+                                </div>
+                                <div class="d-flex flex-row-reverse">
+                                    <button class="btn align-items-end ml-auto" (click)="FindData()" cButton
+                                        color="primary">Buscar</button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <table cTable [responsive]="true" *ngIf="buttonview" hover>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" [hidden]="true">Id</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Edad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ben of beneficiaryList.content;let i=index" (click)="selected(ben,i)"
+                                            [class.active]="i == HighlightRow">
+                                            <td [hidden]="true">{{ben.id}}</td>
+                                            <td>{{ben.name}}</td>
+                                            <td>{{ben.status}}</td>
+                                            <td>{{ben.age}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+                </c-card-group>
+            </c-row>
+        </c-tab-pane>
+        <c-tab-pane class="p-3">
+            <c-row>
+                <c-card-group>
+                <c-card style="padding: 1%;">
+                    <h5 cCardTitle>Diagnósticos de {{dxpatient}}</h5>
+                    <c-card-body>
+                        <button (click)="toggleLiveDemo('undefined')" cButton>Buscar Diagnósticos</button>
+            
+                        <table cTable [responsive]="true" hover>
+                            <thead>
+                                <tr>
+                                    <th scope="col" [hidden]="true">Id</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">código</th>
+                                    <th scope="col">Code system</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let dx of dxList">
+                                    <td [hidden]="true">{{dx.diagnosis_id}}</td>
+                                    <td>{{dx.name}}</td>
+                                    <td>{{dx.code}}</td>
+                                    <td>{{dx.coding_system}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </c-card-body>
+                </c-card>
+                </c-card-group>
+            </c-row>
+        </c-tab-pane>
+        <c-tab-pane class="p-3">
+            <c-row >
+                <c-card-group class="mb-2">
+                    <c-card style="padding: 1%;">
+                        <h5 cCardTitle>Documentos de soporte</h5>
+                        <c-card-body>
+                            <div>
+                                <label>Carnet</label>
+                                <div class="input-group mb-3"> 
+                                <input class="form-control" type="file" (change)="changefilecarnet($event)">
+                                </div>
+                            </div>
+                            <div>
+                                <label>Formulario</label>
+                                <div class="input-group mb-3"> 
+                                <input class="form-control" type="file" (change)="changefileform($event)">
+                                </div>
+                            </div>
+                            <div>
+                                <label>Receta</label>
+                                <div class="input-group mb-3"> 
+                                <input class="form-control" type="file" (change)="changefilereceta($event)">
+                                </div>
+                            </div>
+                        </c-card-body>
+                    </c-card>
+                    <c-card style="padding: 1%;">
+                        <h5 cCardTitle>Información de médico</h5>
+                        <c-card-body>
+                            <div class="mb-3">
+                                <label cLabel for="inputEmail-1">Nombre</label>
+                                <input [(ngModel)]="med.nombre" cFormControl type="text" required>
+                            </div>
+                            <div class="mb-3">
+                                <label cLabel for="inputname">Especialidad</label>
+                                <input [(ngModel)]="med.especialidad" cFormControl type="text" required>
+                            </div>
+                            <div class="mb-3">
+                                <label cLabel for="inputname">Colegiado</label>
+                                <input [(ngModel)]="med.colegiado" cFormControl type="text" required>
+                            </div>
+                        </c-card-body>
+                    </c-card>
+                </c-card-group>
+            </c-row>
+        </c-tab-pane>
+        <c-tab-pane class="p-3">
+            <div class="col s12">
+                <div id="pre-authorization-widget-container-no1"></div>
+              </div>
+              <c-row class="mt-4" *ngIf="medicamentos.length>0">
+                <c-col class="col-12">
+                    <div class="d-flex flex-row-reverse">
+                        <button class="btn align-items-end ml-auto" (click)="Authorice()" cButton color="primary"
+                        cTooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." cTooltipPlacement="right">Solicitar autorización</button>
+                    </div>
+                </c-col>
+            </c-row>
+        </c-tab-pane>
+      </c-tab-content>
+
+      <script src="src/app/Scripts/Widget.js"></script>
+
+
+
+
+
+
+
+
+
+<c-modal id="liveDemoModal" [visible]="visible">
+    <c-modal-header>
+        <h5 cModalTitle>Búsqueda de Diagnósticos</h5>
+    </c-modal-header>
+    <c-modal-body>
+        <div class="mb-3">
+            <label cLabel for="inputname">Diagnóstico</label>
+            <input [(ngModel)]="dxfilter" cFormControl id="inputname" type="text">
+        </div>
+        <div class="d-flex flex-row-reverse">
+            <button class="btn align-items-end ml-auto" (click)="FindDx()" cButton color="primary">Buscar</button>
+        </div>
+        <div>
+            <table cTable [responsive]="true" hover>
+                <thead>
+                    <tr>
+                        <th scope="col" [hidden]="true">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">código</th>
+                        <th scope="col">Code system</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dx of dxfilterlist.content" (click)="selecteddx(dx)">
+                        <td [hidden]="true">{{dx.diagnosis_id}}</td>
+                        <td>{{dx.name}}</td>
+                        <td>{{dx.code}}</td>
+                        <td>{{dx.coding_system}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </c-modal-body>
+</c-modal>
+

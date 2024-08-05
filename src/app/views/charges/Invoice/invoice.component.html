@@ -1,0 +1,94 @@
+<c-row>
+    <c-card style="padding: 1%;">
+        <h5 cCardTitle>Atención médica</h5>
+        <c-card-body>
+            <div class="mb-3">
+                <label cLabel for="inputEmail-1">Número de Ingreso</label>
+                <input [(ngModel)]="Attention" cFormControl type="text">
+            </div>
+            <div class="mb-3">
+                <label cLabel for="inputname">Nombre Atención</label>
+                <input
+                    [ngModel]="this.responsecharger.Charge && this.responsecharger.Charge[0] ?this.responsecharger.Charge[0].origin_event_description:null"
+                    cFormControl id="inputname" type="text" readonly>
+            </div>
+            <div class="d-flex flex-row-reverse">
+            <button class="btn align-items-end ml-auto" (click)="FindAttention()" cButton color="primary">Buscar</button>
+        </div>
+        </c-card-body>
+    </c-card>
+</c-row>
+<c-row>
+    <c-card *ngIf="buttonview">
+        <h5 cCardTitle>Documentos de soporte</h5>
+        <c-card-body>
+            <table cTable [responsive]="true">
+                <thead>
+                    <tr>
+                        <th scope="col">Facturar</th>
+                        <th scope="col">Tipo de Servicio</th>
+                        <th scope="col">Facturable</th>
+                        <th scope="col">Plan de Cobertura</th>
+                        <th scope="col">Fecha de creación</th>
+                        <th scope="col">Acuerdo</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Código de producto</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Monto Total</th>
+                        <th scope="col">Moneda</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let items of this.responsecharger.Charge">
+                        <td *ngIf="items.Invoice===''"><input cFormCheckInput type="checkbox"
+                                [(ngModel)]="items.invoiced"> </td>
+                        <td *ngIf="items.Invoice!==''">{{items.Invoice}} </td>
+                        <td>{{items.service_type}}</td>
+                        <td>{{items.invoiceable?'SI':'NO'}}</td>
+                        <td>{{items.healthcare_plan_coverage_code}}</td>
+                        <td>{{items.creation_date_time | date:"yyyy/MM/dd HH:mm:ss" }}</td>
+                        <td>{{items.agreement_code}}</td>
+                        <td>{{items.quantity}}</td>
+                        <td>{{items.provider_product_code}}</td>
+                        <td>{{items.description}}</td>
+                        <td>{{items.total_amount}}</td>
+                        <td>{{items.currency}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </c-card-body>
+    </c-card>
+</c-row>
+<c-row class="mt-4">
+    <c-col class="col-12">
+        <div class="d-flex flex-row-reverse">
+        <button *ngIf="buttonview" class="btn align-items-end ml-auto" (click)="InvoiceSelect()" cButton color="primary"
+            cTooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." cTooltipPlacement="right">Asignar
+            Factura</button>
+        </div>
+    </c-col>
+</c-row>
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+        <h5 cModalTitle>Factura Generada</h5>
+        <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <p>
+            Se ha generado la factura número {{this.assigned.invoice_number}}
+        </p>
+        <a>
+            Para los cargos
+        <p *ngFor="let car of this.assigned.charge_codes">
+            {{car}}
+        </p>
+    </a>
+    </c-modal-body>
+    <c-modal-footer>
+        <button (click)="toggleLiveDemo()" cButton color="secondary">
+            Cerrar
+        </button>
+    </c-modal-footer>
+</c-modal>
