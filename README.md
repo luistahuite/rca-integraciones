@@ -9,6 +9,7 @@ Aquí podrás encontrar una guía que te podrá ayudar para entender nuestros se
 
 ### What is this repository for? ###
 
+* Login
 * Búsqueda asegurado
 * Búsqueda de Diagnósticos
 * Documentos de soporte
@@ -21,7 +22,7 @@ Aquí podrás encontrar una guía que te podrá ayudar para entender nuestros se
 
 * Node.js 18.13.0+
 * npm 9+
-* Desde una terminal de comandos ir a la ruta donde se tiene el codigo y ejecutar el  el comando `nmp install`
-* Al finalizar la intacion ejecutar el comando para `npm start`
+* Desde una terminal de comandos ir a la ruta donde se tiene el código y ejecutar el comando `npm install`
+* Al finalizar la instalación ejecutar el comando para iniciar la aplicación `npm start`
 * ingresar a http://localhost:4200/
 
